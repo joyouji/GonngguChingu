@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rooms by Category</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
+    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+</head>
+<body>
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/roomCreateBTN :: roomCreate}"></nav>
+<nav th:replace="~{/navbar/CategoryBar_COMM :: navbarFragment}"></nav>
+
+<div class="container">
+    <form action="/joinRoom/search" method="get" class="m-2 mb-4">
+        <div class="input-group">
+            <input type="text" id="searchDetailCategory" name="detailCategory" placeholder="세부 카테고리"
+                   class="form-control searchInput"/>
+            <input type="text" id="searchDetailRegion" name="detailRegion" placeholder="세부 지역"
+                   class="form-control searchInput"/>
+            <input type="text" id="searchRoomTitle" name="roomTitle" placeholder="방 제목"
+                   class="form-control searchInput">
+            <div class="input-group-append">
+                <button type="submit" class="btn searchBTN"><img th:src="@{/img/search.png}" class="searchImage">
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="roomUl">
+        <li th:each="room : ${rooms}" class="roomLi">
+            <div th:onclick="|location.href='@{'/roomDetails?roomId=' + ${room.roomId}}'|" class="roomBTN">
+                <img th:src="@{/img/image.png}" class="roomImage">
+                <div class="roomInfo">
+                    <div class="infoItem">
+                        <span th:text="${room.detailCategory}">세부 카테고리</span>
+                        &nbsp&nbsp|&nbsp&nbsp
+                        <span th:text="${room.region + ' ' + room.detailRegion}">지역</span>
+                    </div>
+                    <div class="infoTitle">
+                        <span th:text="${room.roomTitle}">방 제목</span>
+                        <span th:text="'(' + ${room.currentNum} + ')'" class="infoMemberCount">인원수</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
